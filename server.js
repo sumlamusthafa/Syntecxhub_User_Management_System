@@ -4,8 +4,12 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
+const { apiLimiter, authLimiter } = require("./middleware/rateLimiter");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
+
+app.set("trust proxy", 1);
 
 app.use(helmet());
 app.use(cors());
@@ -20,9 +24,12 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", time: new Date().toISOString() });
 });
 
-// Routes
-app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api", apiLimiter);
+app.use("/api/auth", authLimiter, require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
