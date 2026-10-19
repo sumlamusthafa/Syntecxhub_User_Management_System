@@ -4,7 +4,7 @@ A secure REST API for user registration, authentication and management, built wi
 
 Built as part of the **Syntecxhub Web Development Internship (Week 2)**.
 
-**Live API:** `https://YOUR-RENDER-LINK.onrender.com`
+**Live API:** `https://syntecxhub-user-management-system-eta.vercel.app`
 
 ## Features
 
