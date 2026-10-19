@@ -24,15 +24,31 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", time: new Date().toISOString() });
 });
 
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.use("/api", apiLimiter);
 app.use("/api/auth", authLimiter, require("./routes/authRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
 app.use(notFound);
 app.use(errorHandler);
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    })
+    .catch((err) => {
+      console.error("MongoDB connection failed:", err.message);
+      process.exit(1);
+    });
+}
 
-const PORT = process.env.PORT || 5000;
-
-connectDB().then(() => {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-});
+module.exports = app;
