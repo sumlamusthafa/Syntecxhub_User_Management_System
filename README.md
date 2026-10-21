@@ -4,6 +4,7 @@ A secure REST API for user registration, authentication and management, built wi
 
 Built as part of the **Syntecxhub Web Development Internship (Week 2)**.
 
+**Live app:** 'https://syntecxhub-user-management-system-j.vercel.app'
 **Live API:** `https://syntecxhub-user-management-system-eta.vercel.app`
 
 ## Features
@@ -149,6 +150,30 @@ Import `postman/User_Management_API.postman_collection.json` into Postman:
 ├── screenshots/   # README images
 └── server.js      # app entry point
 ```
+
+## Frontend: Roster student portal
+
+The `client` folder contains a React + Vite frontend that uses this API, presented as a college student portal.
+
+- Students register, sign in and update their own details
+- Staff (the admin role) search, page through and manage every student record
+- Role-based routes: the Students page opens only for staff
+- The session is saved, so a refresh keeps you signed in
+
+To run it locally, start the API, then:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+Set `VITE_API_URL` in `client/.env` to point at a different API (see `client/.env.example`).
+
+Anyone can register as a student to try the app. Staff access is granted in the database.
+
+![Sign in](screenshots/app-login.png)
+![Students](screenshots/app-students.png)
 
 ## Author
 
